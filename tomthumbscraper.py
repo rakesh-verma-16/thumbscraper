@@ -90,12 +90,12 @@ class TomThumbScraper:
         ):
         """ Initializes the data
 
-        :arg:
-        :param data_link: Link to the JSON data file
-        :param initial_url: The entry point for scraper
-        :param username: Username for authenticating the scraper
-        :param password: Password for authenticating the scraper
-        :param index: Index from JSON file to start reading from. Default is "0"
+        :parameter:
+            data_link:    Link to the JSON data file
+            initial_url:  The entry point for scraper
+            username:     Username for authenticating the scraper
+            password:     Password for authenticating the scraper
+            index:        Index from JSON file to start reading from. Default is "0"
 
         :raises:
             Exception: if starting index is not found in JSON file (default="0").
