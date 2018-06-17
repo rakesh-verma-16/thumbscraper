@@ -1,4 +1,4 @@
-# thumbscraper
+# Thumbscraper
 
 Thumbscraper is a extendable, scalable and generic web scraper model which not only can scrape the websites for useful content but can also verify the landing pages by making XPATH queries.
 
