@@ -17,11 +17,6 @@ $ python tomthumbscraper.py `url_to_json_file` `entry_point_for_scraper` `userna
 $ python test_tomthumbscraper.py
 ```
 
-### TODOs
- - [x] Add comments
- - [ ] Write MORE tests
- - [ ] Make it more extendible
-  
 ### JSON <Structure/Format>
 ```
 {
@@ -62,3 +57,8 @@ Move to page 2
 
 ALERT - Can’t move to page 4: page 3 link has been malevolently tampered with!!
 ```
+
+### TODOs
+ - [x] Add comments
+ - [ ] Write MORE tests
+ - [ ] Make it more extendible
