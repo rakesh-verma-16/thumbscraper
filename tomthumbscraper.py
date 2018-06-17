@@ -11,10 +11,10 @@ to other links using XPATH Queries.
     >>> import tomthumbscraper
     >>> scraper = tomthumbScraper.TomThumbScraper('http://www.example.com/jsonFile.json', 'https://entrypoint.com')
     >>> scraper.run()
-    Move to page 1
-    Move to page 2
-    ...
-    ALERT - Can’t move to page 4: page 3 link has been malevolently tampered with!!
+        Move to page 1
+        Move to page 2
+        ...
+        ALERT - Can’t move to page 4: page 3 link has been malevolently tampered with!!
 """
 
 import sys
@@ -35,16 +35,18 @@ def fetch_json_data(data_link):
     :return:
          Python Object deserialized from a JSON document
     """
+
     data_element = requests.get(data_link)
 
     if not data_element.status_code \
-           == TomThumbScraper.HTTP_SUCCESS_RESPONSE:
+        == TomThumbScraper.HTTP_SUCCESS_RESPONSE:
         raise Exception('Unable to get JSON data from the given link')
 
     return json.loads(data_element.text)
 
 
 class TomThumbScraper:
+
     """TomThumbScraper is a web scraper which moves through multiple pages after successful validation.
 
     The programme can be run through the terminal with the following command:
@@ -75,16 +77,17 @@ class TomThumbScraper:
         ALERT - Can’t move to page 12: page 11 link has been malevolently tampered with!!
 
     """
+
     HTTP_SUCCESS_RESPONSE = 200
 
     def __init__(
-            self,
-            data_link,
-            initial_url,
-            username='Thumb',
-            password='Scraper',
-            index='0',
-    ):
+        self,
+        data_link,
+        initial_url,
+        username='Thumb',
+        password='Scraper',
+        index='0',
+        ):
         """ Initializes the data
 
         :arg:
@@ -96,8 +99,9 @@ class TomThumbScraper:
 
         :raises:
             Exception: if starting index is not found in JSON file (default="0").
-        
+
         """
+
         self.base_url = initial_url
         self.url = initial_url
         self.index = index
@@ -120,19 +124,20 @@ class TomThumbScraper:
         If the current page is not the desired page, it stops the flow
         and prints into the console the tampered page number.
         """
+
         page_counter = 0
 
         while True:
             self.load_current_page()
             if self.is_on_correct_page():
                 page_counter += 1
-                print('Move to page', page_counter)
+                print ('Move to page', page_counter)
                 self.move_to_next_page()
                 continue
             else:
-                print('ALERT - Can\'t move to page', page_counter + 1,
-                      ': page', page_counter,
-                      'link has been malevolently tampered with!!')
+                print ('ALERT - Can\'t move to page', page_counter + 1,
+                       ': page', page_counter,
+                       'link has been malevolently tampered with!!')
             break
 
     def load_current_page(self):
@@ -141,12 +146,13 @@ class TomThumbScraper:
         :raises:
             Exception if doesn't recieve a success response.
         """
+
         page = requests.get(self.url, auth=(self.username,
-                                            self.password))
+                            self.password))
         if not page.status_code \
-               == TomThumbScraper.HTTP_SUCCESS_RESPONSE:
+            == TomThumbScraper.HTTP_SUCCESS_RESPONSE:
             raise Exception('Invalid page url or credentials supplied for '
-                            + self.url)
+                             + self.url)
 
         self.current_page_data = html.document_fromstring(page.text)
         self.current_page_data.make_links_absolute(self.base_url)
@@ -157,9 +163,10 @@ class TomThumbScraper:
         :return:
             BOOL: True if on the right page, false otherwise.
         """
+
         actual_xpath_query_result = \
             self.current_page_data.xpath(self.data[self.index]['xpath_test_query'
-                                         ])
+                ])
         expected_xpath_query_result = \
             self.data[self.index]['xpath_test_result']
 
@@ -168,29 +175,33 @@ class TomThumbScraper:
     def move_to_next_page(self):
         """Sets the next link to go to and updates the index to next expected index.
         """
+
         next_link_element = \
-            self.current_page_data.xpath(self.data[self.index]['xpath_button_to_click'])
+            self.current_page_data.xpath(self.data[self.index]['xpath_button_to_click'
+                ])
         self.url = next_link_element[0].attrib['href']
         self.index = self.data[self.index]['next_page_expected']
 
 
 if __name__ == '__main__':
 
+
     def main():
         """Creats a Scraper instance using the values supplies via Command-Line as parameteres
         """
+
         if len(sys.argv) < 3:
-            print('Atleast 2 arguments expected - Link to data file and base url')
+            print 'Atleast 2 arguments expected - Link to data file and base url'
             exit(1)
 
         if len(sys.argv) == 3:
             scraper = TomThumbScraper(sys.argv[1], sys.argv[2])
         elif len(sys.argv) == 5:
-            scraper = TomThumbScraper(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+            scraper = TomThumbScraper(sys.argv[1], sys.argv[2],
+                    sys.argv[3], sys.argv[4])
         else:
-            print('Invalid number arguments supplied.')
-            print("Expected Format: \npython tomthumbscraper.py "
-                  "url_to_json_file entry_point username password")
+            print 'Invalid number arguments supplied.'
+            print 'Expected Format: \npython tomthumbscraper.py url_to_json_file entry_point username password'
             exit(1)
 
         scraper.run()
