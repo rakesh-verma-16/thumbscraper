@@ -62,3 +62,7 @@ ALERT - Can’t move to page 4: page 3 link has been malevolently tampered with!
  - [x] Add comments
  - [ ] Write MORE tests
  - [ ] Make it more extendible
+ 
+ ### Helpful Links
+ - https://www.programcreek.com/python/example/68397/lxml.html.document_fromstring
+ - http://lxml.de/lxmlhtml.html
